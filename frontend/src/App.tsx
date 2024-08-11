@@ -6,7 +6,7 @@ import Dashboard from "./page/Dashboard";
 import HandleBoard from "./page/HandleBoard";
 import Landing from "./page/Landing";
 import LandingBoard from "./page/LandingBoard";
-
+//
 function App() {
   return (
     <div className="w-screen h-screen">
