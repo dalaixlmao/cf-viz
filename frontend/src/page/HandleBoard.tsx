@@ -26,11 +26,13 @@ export default function HandleBoard() {
   const [param] = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
     const h = param.get("handle");
     if (h) setHandle(h);
     axios
-      .get(URL+"/user/handle/" + handle)
+      .get(URL + "/user/handle/" + handle)
       .then((res) => {
         const result = res.data.result;
         setName(result.firstname + " " + result.lastname);
@@ -38,16 +40,17 @@ export default function HandleBoard() {
         setHandle(result.handle);
         setRating(result.currentRating);
         setMaxRating(result.maxRating);
+
         setRank(result.rank);
         setMaxRank(result.maxRank);
         setTagRating(res.data.tagRating);
         setLoading(false);
       })
       .catch(() => {
-          setError(true);
-          setTimeout(() => {
-            setError(false);
-          }, 3000);
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 3000);
       });
   }, [handle]);
   return (
@@ -57,18 +60,18 @@ export default function HandleBoard() {
         {error ? <ErrorComponent /> : <></>}
       </div>
       <div className="flex flex-row items-center justify-center w-4/5 mt-5">
-      <input
-  className="w-full md:w-1/3 bg-white z-2 py-2 px-3 rounded-lg shadow-2xl"
-  type="text"
-  placeholder="Search handle"
-  onKeyDown={(e) => {
-    if (e.key === "Enter") {
-      const target = e.target as HTMLInputElement;
-      navigate("/user/?handle=" + (target.value ? target.value : ""));
-    }
-  }}
-/>
-
+        <input
+          className="w-full md:w-1/3 bg-white z-2 py-2 px-3 rounded-lg shadow-2xl"
+          type="text"
+          placeholder="Search handle"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              const target = e.target as HTMLInputElement;
+              setHandle(target.value);
+              navigate("/user/?handle=" + (target.value ? target.value : ""));
+            }
+          }}
+        />
       </div>
 
       <div className="flex justify-center items-center w-full md:w-4/5 mt-5 bg-white rounded-xl">
