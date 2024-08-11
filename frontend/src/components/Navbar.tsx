@@ -35,13 +35,14 @@ export function Navbar({ page }: { page: string }) {
             <button className="bg-blue-900 text-xs font-light text-white rounded-md py-1 px-3" onClick={()=>{navigate('/signin')}}>Sign In</button>
           </div>
         ) : (
-          <img
+          
+          avatar!=""?<img
             className="w-8 h-8 rounded-full hover:cursor-pointer"
             onClick={() => {
               navigate("/dashboard");
             }}
             src={avatar}
-          />
+          />:<div className="w-8 h-8 rounded-full hover:cursor-pointer bg-gray-400"></div>
         )}
       </div>
     </div>
