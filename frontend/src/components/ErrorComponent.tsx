@@ -1,4 +1,6 @@
-export default function ErrorComponent() {
+export default function ErrorComponent({message}:{message:string}) {
+  console.log(message)
+  if(message==="" || !message) return <></>
   return (
     <div
       className="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
@@ -15,7 +17,7 @@ export default function ErrorComponent() {
       </svg>
       <span className="sr-only">Info</span>
       <div>
-        <span className="font-medium">Error!</span> Something Went Wrong.
+        <span className="font-medium">Error!</span> {message===""?"Something Went Wrong.":message}
       </div>
     </div>
   );

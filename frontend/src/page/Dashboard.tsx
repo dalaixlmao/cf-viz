@@ -24,10 +24,11 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [error, setError] = useState(false);
+  const [errorM, setErrorM] = useState("");
 
   useEffect(() => {
     axios
-      .get(URL+"/user/dashboard", {
+      .get(URL + "/user/dashboard", {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
@@ -43,27 +44,38 @@ export default function Dashboard() {
         setMaxRank(result.maxRank);
         setTagRating(res.data.tagRating);
         setLoading(false);
-      }).catch(()=>{setError(true);setTimeout(()=>{
-        setError(false)
-      },3000)});
+      })
+      .catch((e) => {
+        setError(true);
+        if (e.response.data) setErrorM(e.response.data.message);
+        else setErrorM(e.message);
+        console.log();
+        const temp = error;
+        console.log(temp);
+        setTimeout(() => {
+          setError(false);
+          setErrorM("");
+        }, 3000);
+      });
   }, []);
   return (
     <div className="w-full h-full flex flex-col items-center md:bg-cfbg md:bg-no-repeat md:bg-cover md:bg-white bg-blue-300 md:bg-center">
       <Navbar page={"dashboard"} />
-      <div className="absolute top-14">{error?<ErrorComponent/>:<></>}</div>
+      <div className="absolute top-14">
+        {errorM != "" ? <ErrorComponent message={errorM} /> : <></>}
+      </div>
       <div className="flex flex-row items-center justify-center w-4/5 mt-5">
-      <input
-  className="w-full md:w-1/3 bg-white z-2 py-2 px-3 rounded-lg shadow-2xl"
-  type="text"
-  placeholder="Search handle"
-  onKeyDown={(e) => {
-    if (e.key === "Enter") {
-      const target = e.target as HTMLInputElement;
-      navigate("/user/?handle=" + (target.value ? target.value : ""));
-    }
-  }}
-/>
-
+        <input
+          className="w-full md:w-1/3 bg-white z-2 py-2 px-3 rounded-lg shadow-2xl"
+          type="text"
+          placeholder="Search handle"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              const target = e.target as HTMLInputElement;
+              navigate("/user/?handle=" + (target.value ? target.value : ""));
+            }
+          }}
+        />
       </div>
 
       <div className="flex justify-center items-center w-full md:w-4/5 mt-5 bg-white rounded-xl">

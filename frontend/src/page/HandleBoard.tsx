@@ -26,6 +26,7 @@ export default function HandleBoard() {
   const [param] = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [errorM, setErrorM] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -40,16 +41,23 @@ export default function HandleBoard() {
         setHandle(result.handle);
         setRating(result.currentRating);
         setMaxRating(result.maxRating);
-
         setRank(result.rank);
         setMaxRank(result.maxRank);
         setTagRating(res.data.tagRating);
+        setError(false);
+        setErrorM("");
         setLoading(false);
       })
-      .catch(() => {
+      .catch((e) => {
         setError(true);
+        if (e.response.data) setErrorM(e.response.data.message);
+        else setErrorM(e.message);
+        console.log();
+        const temp = error;
+        console.log(temp);
         setTimeout(() => {
           setError(false);
+          setErrorM("");
         }, 3000);
       });
   }, [handle]);
@@ -57,7 +65,7 @@ export default function HandleBoard() {
     <div className="w-full h-full flex flex-col items-center md:bg-cfbg md:bg-no-repeat md:bg-y-repeat md:bg-cover bg-blue-300 md:bg-center">
       <Navbar page={"dashboard"} />
       <div className="absolute top-14">
-        {error ? <ErrorComponent /> : <></>}
+        {errorM == "" ? <></> : <ErrorComponent message={errorM} />}
       </div>
       <div className="flex flex-row items-center justify-center w-4/5 mt-5">
         <input
