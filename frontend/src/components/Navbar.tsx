@@ -22,7 +22,7 @@ export function Navbar({ page }: { page: string }) {
         <div
           className="text-xl font-light hover:cursor-pointer"
           onClick={() => {
-            navigate("/dashboard");
+            navigate("/");
           }}
         >
           CFviz
