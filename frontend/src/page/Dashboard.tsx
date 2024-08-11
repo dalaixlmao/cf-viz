@@ -7,7 +7,6 @@ import { Rank } from "../components/RatingComponent";
 import ColumnChart from "../components/ColumnChart";
 import PieChart from "../components/PieChart";
 import { useNavigate } from "react-router-dom";
-import { Navbar } from "../components/Navbar";
 import LoaderDashboard from "../components/LoaderDashboard";
 import ErrorComponent from "../components/ErrorComponent";
 import { URL } from "../config";
@@ -60,7 +59,7 @@ export default function Dashboard() {
   }, []);
   return (
     <div className="w-full h-full flex flex-col items-center md:bg-cfbg md:bg-no-repeat md:bg-cover md:bg-white bg-blue-300 md:bg-center">
-      <Navbar page={"dashboard"} />
+
       <div className="absolute top-14">
         {errorM != "" ? <ErrorComponent message={errorM} /> : <></>}
       </div>

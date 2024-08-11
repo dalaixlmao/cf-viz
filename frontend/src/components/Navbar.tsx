@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { URL } from "../config";
-export function Navbar({ page }: { page: string }) {
+export function Navbar() {
   const [avatar, setAvatar] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
