@@ -11,6 +11,7 @@ import { useSearchParams } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import LoaderDashboard from "../components/LoaderDashboard";
 import ErrorComponent from "../components/ErrorComponent";
+import { URL } from "../config";
 
 export default function LandingBoard() {
   const [avatar, setAvatar] = useState("");
@@ -25,15 +26,16 @@ export default function LandingBoard() {
   const [param] = useSearchParams();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [errorM, setErrorM] = useState("");
   useEffect(() => {
+    setLoading(true);
     const h = param.get("handle");
-
-    if(h)
-    setHandle(h);
+    if (h) setHandle(h);
     axios
-      .get(URL+"/user/handle/"+handle)
+      .get(URL + "/user/handle/" + handle)
       .then((res) => {
         const result = res.data.result;
+        console.log(URL + "/user/handle/" + handle);
         setName(result.firstname + " " + result.lastname);
         setAvatar(result.titlePhoto);
         setHandle(result.handle);
@@ -42,28 +44,42 @@ export default function LandingBoard() {
         setRank(result.rank);
         setMaxRank(result.maxRank);
         setTagRating(res.data.tagRating);
-        setLoading(false)
-      }).catch(()=>{setError(true);setTimeout(()=>{
-        setError(false)
-      },3000)});
+        setError(false);
+        setErrorM("");
+        setLoading(false);
+      })
+      .catch((e) => {
+        setError(true);
+        if (e.response.data) setErrorM(e.response.data.message);
+        else setErrorM(e.message);
+        console.log();
+        const temp = error;
+        console.log(temp);
+        setTimeout(() => {
+          setError(false);
+          setErrorM("");
+        }, 3000);
+      });
   }, [handle]);
+  console.log(errorM)
   return (
     <div className="w-full h-full flex flex-col items-center md:bg-cfbg md:bg-no-repeat md:bg-y-repeat md:bg-cover bg-blue-300 md:bg-center">
       <Navbar page={"landing"} />
-      <div className="absolute top-14">{error?<ErrorComponent message=""/>:<></>}</div>
+      <div className="absolute top-14">
+        {errorM != "" && errorM ? <ErrorComponent message="" /> : <></>}
+      </div>
       <div className="flex flex-row items-center justify-center w-4/5 mt-5">
-      <input
-  className="w-full md:w-1/3 bg-white z-2 py-2 px-3 rounded-lg shadow-2xl"
-  type="text"
-  placeholder="Search handle"
-  onKeyDown={(e) => {
-    if (e.key === "Enter") {
-      const target = e.target as HTMLInputElement;
-      navigate("/user/?handle=" + (target.value ? target.value : ""));
-    }
-  }}
-/>
-
+        <input
+          className="w-full md:w-1/3 bg-white z-2 py-2 px-3 rounded-lg shadow-2xl"
+          type="text"
+          placeholder="Search handle"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              const target = e.target as HTMLInputElement;
+              navigate("/user/?handle=" + (target.value ? target.value : ""));
+            }
+          }}
+        />
       </div>
 
       <div className="flex justify-center items-center w-full md:w-4/5 mt-5 bg-white rounded-xl">

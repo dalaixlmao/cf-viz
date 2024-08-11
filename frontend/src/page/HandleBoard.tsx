@@ -28,39 +28,12 @@ export default function HandleBoard() {
   const [error, setError] = useState(false);
   const [errorM, setErrorM] = useState("");
 
-  useEffect(() => {
-    setLoading(true);
-    const h = param.get("handle");
-    if (h) setHandle(h);
-    axios
-      .get(URL + "/user/handle/" + handle)
-      .then((res) => {
-        const result = res.data.result;
-        setName(result.firstname + " " + result.lastname);
-        setAvatar(result.titlePhoto);
-        setHandle(result.handle);
-        setRating(result.currentRating);
-        setMaxRating(result.maxRating);
-        setRank(result.rank);
-        setMaxRank(result.maxRank);
-        setTagRating(res.data.tagRating);
-        setError(false);
-        setErrorM("");
-        setLoading(false);
-      })
-      .catch((e) => {
-        setError(true);
+  setError(true);
         if (e.response.data) setErrorM(e.response.data.message);
         else setErrorM(e.message);
         console.log();
         const temp = error;
         console.log(temp);
-        setTimeout(() => {
-          setError(false);
-          setErrorM("");
-        }, 3000);
-      });
-  }, [handle]);
   return (
     <div className="w-full h-full flex flex-col items-center md:bg-cfbg md:bg-no-repeat md:bg-y-repeat md:bg-cover bg-blue-300 md:bg-center">
       <Navbar page={"dashboard"} />
