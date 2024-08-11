@@ -50,7 +50,7 @@ export default function LandingBoard() {
   return (
     <div className="w-full h-full flex flex-col items-center md:bg-cfbg md:bg-no-repeat md:bg-y-repeat md:bg-cover bg-blue-300 md:bg-center">
       <Navbar page={"landing"} />
-      <div className="absolute top-14">{error?<ErrorComponent/>:<></>}</div>
+      <div className="absolute top-14">{error?<ErrorComponent message=""/>:<></>}</div>
       <div className="flex flex-row items-center justify-center w-4/5 mt-5">
       <input
   className="w-full md:w-1/3 bg-white z-2 py-2 px-3 rounded-lg shadow-2xl"

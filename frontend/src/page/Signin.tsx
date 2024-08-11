@@ -13,11 +13,12 @@ export default function Signin() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorM, setErrorM] = useState("");
 
   async function onClick() {
     setLoading(true);
     try {
-      const response = await axios.post(URL+"/user/signin", {
+      const response = await axios.post(URL + "/user/signin", {
         email: email,
         password: password,
       });
@@ -26,18 +27,23 @@ export default function Signin() {
         localStorage.setItem("token", "Bearer " + response.data.token);
         navigate("/dashboard");
       }
-    } catch (e) {
+    } catch (e:any) {
       setError(true);
-      setLoading(false)
-      setTimeout(()=>{
-        setError(false)
-      },3000)
+      if (e.response.data) setErrorM(e.response.data.message);
+      else setErrorM(e.message);
+      console.log();
+      const temp = error;
+      console.log(temp);
+      setLoading(false);
+      setTimeout(() => {
+        setError(false);
+      }, 3000);
     }
   }
   return (
     <div className="w-full h-full flex flex-col justify-center items-center bg-cfbg bg-no-repeat bg-cover bg-center">
       <div className="absolute top-14">
-        {error ? <ErrorComponent /> : <></>}
+        {errorM != "" && errorM ? <ErrorComponent message={errorM} /> : <></>}
       </div>
       <Card width="auto rounded-xl">
         <Heading title={"Sign In"} subHeading="Don't have an account?" />
