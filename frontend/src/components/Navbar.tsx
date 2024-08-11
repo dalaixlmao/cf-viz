@@ -29,7 +29,7 @@ export function Navbar({ page }: { page: string }) {
         </div>
       </div>
       <div className="w-2/5 flex justify-end">
-        {page == "landing" ? (
+        {!localStorage.getItem("token") ? (
           <div className="flex flex-row justify-end">
             <button className="bg-blue-900 text-xs font-light text-white rounded-md py-1 px-3 mr-8" onClick={()=>{navigate('/signup')}}>Sign Up</button>
             <button className="bg-blue-900 text-xs font-light text-white rounded-md py-1 px-3" onClick={()=>{navigate('/signin')}}>Sign In</button>
