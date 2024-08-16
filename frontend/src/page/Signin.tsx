@@ -23,10 +23,8 @@ export default function Signin() {
         password: password,
       });
       setLoading(false);
-      if (response.data.message == "Signed in successfully") {
         localStorage.setItem("token", "Bearer " + response.data.token);
         navigate("/dashboard");
-      }
     } catch (e:any) {
       setError(true);
       if (e.response.data) setErrorM(e.response.data.message);
