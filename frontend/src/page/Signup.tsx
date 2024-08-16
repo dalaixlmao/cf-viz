@@ -24,10 +24,8 @@ export default function Signup() {
         password: password,
         handle: handle,
       });
-      if (response.data.message == "Signed up successfully") {
-        localStorage.setItem("token", "Bearer " + response.data.token);
-        navigate("/dashboard");
-      }
+      localStorage.setItem("token", "Bearer " + response.data.token);
+      navigate("/dashboard");
       setLoading(false);
     } catch (e: any) {
       setError(true);
