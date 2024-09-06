@@ -2,7 +2,7 @@ import Card from "../components/Card";
 import Heading from "../components/Heading";
 import InputBox from "../components/InputBox";
 import Button from "../components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ErrorComponent from "../components/ErrorComponent";
@@ -14,6 +14,7 @@ export default function Signin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorM, setErrorM] = useState("");
+  const [validPass, setValidPass] = useState(false);
 
   async function onClick() {
     setLoading(true);
@@ -27,7 +28,7 @@ export default function Signin() {
         localStorage.setItem("token", "Bearer " + response.data.token);
         navigate("/dashboard");
       }
-    } catch (e:any) {
+    } catch (e: any) {
       setError(true);
       if (e.response.data) setErrorM(e.response.data.message);
       else setErrorM(e.message);
@@ -40,6 +41,12 @@ export default function Signin() {
       }, 3000);
     }
   }
+
+  useEffect(() => {
+    if (password.length >= 8) setValidPass(true);
+    else setValidPass(false);
+  }, [password, setValidPass]);
+
   return (
     <div className="w-full h-full flex flex-col justify-center items-center bg-cfbg bg-no-repeat bg-cover bg-center">
       <div className="absolute top-14">
@@ -59,6 +66,11 @@ export default function Signin() {
           label="Password"
           placeholder="Enter your password..."
         />
+        {!validPass && (
+          <div className="text-[12px] text-red-500">
+            Password should have atleast 8 characters
+          </div>
+        )}
         <Button title={"Sign In"} onClick={onClick} loading={loading} />
       </Card>
     </div>

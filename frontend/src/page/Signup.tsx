@@ -67,6 +67,11 @@ export default function Signup() {
           label="Password"
           placeholder="Enter your password..."
         />
+        {(password.length<8) && (
+          <div className="text-[12px] text-red-500">
+            Password should have atleast 8 characters
+          </div>
+        )}
         <Button title={"Sign Up"} onClick={onClick} loading={loading} />
       </Card>
     </div>
