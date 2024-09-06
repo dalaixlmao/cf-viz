@@ -72,9 +72,9 @@ export function Navbar() {
           </div>
           <div
             onClick={() => {
+              setVis(false);
               localStorage.removeItem("token");
               navigate("/signin");
-              setVis(false);
             }}
             className="w-full transition-all rounded-md flex hover:bg-black/20 cursor-pointer flex-col items-center"
           >
