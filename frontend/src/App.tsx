@@ -5,6 +5,7 @@ import Signin from "./page/Signin";
 import Dashboard from "./page/Dashboard";
 import HandleBoard from "./page/HandleBoard";
 import Landing from "./page/Landing";
+import AIFeatures from "./page/AIFeatures";
 import { Navbar } from "./components/Navbar";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path={"/signin"} element={<Signin />} />
           <Route path={"/dashboard"} element={<Dashboard />} />
           <Route path={"/user/*"} element={<HandleBoard />} />
+          <Route path={"/ai"} element={<AIFeatures />} />
         </Routes>
       </BrowserRouter>
     </div>

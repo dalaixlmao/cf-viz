@@ -19,5 +19,84 @@ model User{
   handle String 
   email String @unique
   password String
+  
+  // AI feature related fields
+  problemHistory Problem[] // Problems the user has attempted or solved
+  recommendations Recommendation[] // Personalized recommendations for the user
+  performanceMetrics PerformanceMetric[] // User's performance metrics by tag/category
+  contestPredictions ContestPrediction[] // Predictions about upcoming contests
 }
 
+model Problem {
+  id Int @id @default(autoincrement())
+  problemId String // Codeforces problem ID
+  contestId Int
+  index String
+  name String
+  tags String[] // Problem tags/categories
+  rating Int? // Difficulty rating
+  
+  // Relations
+  users User[] // Users who have attempted this problem
+  userSolutions UserSolution[] // Detailed solutions by users
+  recommendations Recommendation[] // Where this problem has been recommended
+}
+
+model UserSolution {
+  id Int @id @default(autoincrement())
+  problemId Int
+  problem Problem @relation(fields: [problemId], references: [id])
+  userId Int
+  submissionId String // Codeforces submission ID
+  verdict String // OK, WRONG_ANSWER, etc.
+  language String
+  timeSubmitted DateTime
+  executionTimeMs Int?
+  memoryCostKb Int?
+  code String? // The actual code submitted (if available)
+  
+  @@unique([problemId, submissionId])
+}
+
+model Recommendation {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  problemId Int
+  problem Problem @relation(fields: [problemId], references: [id])
+  reasonCode String // Code representing why this was recommended (e.g., "WEAK_TAG", "PRACTICE_NEEDED")
+  reasonText String // Human-readable explanation
+  difficulty String // EASY, MEDIUM, HARD relative to user's level
+  createdAt DateTime @default(now())
+  
+  @@unique([userId, problemId])
+}
+
+model PerformanceMetric {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  tag String // The category/tag being measured
+  problemsSolved Int @default(0)
+  problemsAttempted Int @default(0)
+  averageRating Int? // Average problem rating solved in this category
+  strengthScore Float // 0-10 score representing strength in this category
+  lastUpdated DateTime @default(now())
+  
+  @@unique([userId, tag])
+}
+
+model ContestPrediction {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  contestId Int
+  contestName String
+  predictedRank Int?
+  predictedRatingChange Int?
+  confidence Float // 0-1 value representing prediction confidence
+  recommendedProblems String[] // List of problem types to practice before contest
+  createdAt DateTime @default(now())
+  
+  @@unique([userId, contestId])
+}

@@ -60,7 +60,7 @@ export function Navbar() {
         ) : (
           <div className="w-8 h-8 rounded-full hover:cursor-pointer bg-gray-400"></div>
         )}
-        {vis && <div className="w-[200px] py-2 px-2 flex flex-col items-center justify-center bg-white border border-gray/30 rounded-md absolute right-0 top-12">
+        {vis && <div className="w-[200px] py-2 px-2 flex flex-col items-center justify-center bg-white border border-gray/30 rounded-md absolute right-0 top-12 z-50">
           <div
             onClick={() => {
               navigate("/dashboard");
@@ -69,6 +69,15 @@ export function Navbar() {
             className="border-b transition-all rounded-md hover:bg-black/20 w-full cursor-pointer flex flex-col items-center"
           >
             Profile
+          </div>
+          <div
+            onClick={() => {
+              navigate("/ai");
+              setVis(false);
+            }}
+            className="border-b transition-all rounded-md hover:bg-black/20 w-full cursor-pointer flex flex-col items-center"
+          >
+            AI Features
           </div>
           <div
             onClick={() => {
