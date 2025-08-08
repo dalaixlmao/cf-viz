@@ -8,7 +8,7 @@ import ErrorComponent from '../components/ErrorComponent';
 
 const AIFeatures: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'recommendations' | 'insights' | 'contests' | 'assistant'>('recommendations');
-  const [error, setError] = useState("");
+  const [error] = useState(""); // Removed unused setter
   const navigate = useNavigate();
 
   // Check if user is authenticated
